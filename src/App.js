@@ -3,11 +3,10 @@ import "./App.css";
 import Tareas from "./componentes/Tareas";
 
 function App() {
-  const [NuevoItem, setNuevoItem] = useState([
-    { name: "Revisar material x", done: false },
-    { name: "Revisar material y", done: false },
-    { name: "Revisar material z", done: false },
-  ]);
+  const [NuevoItem, setNuevoItem] = useState(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
 
   function crearTarea(nuevaTarea) {
     setNuevoItem([...NuevoItem, { name: nuevaTarea, done: false }]);
@@ -18,7 +17,7 @@ function App() {
   };
 
   useEffect(() => {
-    localStorage.setItem("input", JSON.stringify(NuevoItem));
+    localStorage.setItem("tasks", JSON.stringify(NuevoItem));
   }, [NuevoItem]);
 
   return (
